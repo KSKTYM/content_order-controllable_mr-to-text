@@ -14,7 +14,7 @@ _Authors: Keisuke Toyama, Katsuhito Sudoh, and Satoshi Nakamura_
   + itertools
 
 ## Usage
-1) get dataset
+1) get E2E refined dataset
 ```
 $ cd corpus
 $ ./EXE-GET-DATASET.sh
@@ -22,8 +22,8 @@ $ ./EXE-GET-DATASET.sh
 2) train NLU/NLG models
 ```
 $ cd ../../training
-$ ./EXE-TRAINING-NLU-1.sh
-$ ./EXE-TRAINING-NLG-1.sh
+$ ./EXE-TRAINING-NLU.sh
+$ ./EXE-TRAINING-NLG.sh
 ```
 3) generate augmented training data
 ```
@@ -38,8 +38,8 @@ $ ./EXE-MAKE-REORDERED-DATA.sh
 5) train NLU/NLG models w/ augmented training data
 ```
 $ cd ../../../training
-$ ./EXE-TRAINING-NLU-2.sh
-$ ./EXE-TRAINING-NLG-2.sh
+$ ./EXE-TRAINING-NLU-AUG.sh
+$ ./EXE-TRAINING-NLG-AUG.sh
 ```
 6) evaluate models
 ```
@@ -57,4 +57,4 @@ $ ./EXE-e2e-metrics.sh
 - PyTorch Seq2Seq (https://github.com/bentrevett/pytorch-seq2seq)
 
 ## License
-E2E dataset and E2E refined dataset are distributed under the [Creative Common 4.0 Attribution-ShareAlike License (CC4.0-BY-SA)](https://creativecommons.org/licenses/by-sa/4.0/).
+- E2E refined dataset is distributed under the [Creative Common 4.0 Attribution-ShareAlike License (CC4.0-BY-SA)](https://creativecommons.org/licenses/by-sa/4.0/)
