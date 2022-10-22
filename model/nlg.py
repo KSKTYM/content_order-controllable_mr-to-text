@@ -93,22 +93,22 @@ class NLG():
             mr_obj['startword'] = ''
 
         # MR index <sos> ... <eos>
-        mr_value_idx = [self.dictionary['mr_value']['s2i']['<sos>']]
+        mr_idx = [self.dictionary['mr']['s2i']['<sos>']]
         if self.algorithm == 'A':
             for i in range(1, 9):
                 for attr in mr_obj['order']:
                     if mr_obj['order'][attr] == i:
-                        mr_value_idx.append(self.dictionary['mr_value']['s2i'][mr_obj['value_lex'][attr]])
+                        mr_idx.append(self.dictionary['mr']['s2i'][mr_obj['value_lex'][attr]])
         else:
             for attr in mr_obj['value_lex']:
                 if mr_obj['value_lex'][attr] != '':
-                    mr_value_idx.append(self.dictionary['mr_value']['s2i'][mr_obj['value_lex'][attr]])
-        mr_value_idx.append(self.dictionary['mr_value']['s2i']['<eos>'])
+                    mr_idx.append(self.dictionary['mr']['s2i'][mr_obj['value_lex'][attr]])
+        mr_idx.append(self.dictionary['mr']['s2i']['<eos>'])
 
         # encode
-        mr_value_tensor = torch.LongTensor(mr_value_idx).unsqueeze(0).to(self.device)
-        mr_mask = self.model_NLG.make_mr_mask(mr_value_tensor)
-        enc_mr = self.model_NLG.encoder(mr_value_tensor, mr_mask)
+        mr_tensor = torch.LongTensor(mr_idx).unsqueeze(0).to(self.device)
+        mr_mask = self.model_NLG.make_mr_mask(mr_tensor)
+        enc_mr = self.model_NLG.encoder(mr_tensor, mr_mask)
 
         # decode
         # greedy search

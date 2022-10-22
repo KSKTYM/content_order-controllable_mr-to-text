@@ -52,21 +52,21 @@ class NLU():
             enc_txt = self.model.encoder(txt_tensor, txt_mask)
 
         # decode
-        mr_value_idx = [self.dictionary['mr_value']['s2i']['<sos>']]
-        num_token = len(mr_value_idx)
-        for i in range(num_token, self.dictionary['mr_value']['max_num_token']):
-            mr_value_tensor = torch.LongTensor(mr_value_idx).unsqueeze(0).to(self.device)
-            mr_mask = self.model.make_mr_mask(mr_value_tensor)
+        mr_idx = [self.dictionary['mr']['s2i']['<sos>']]
+        num_token = len(mr_idx)
+        for i in range(num_token, self.dictionary['mr']['max_num_token']):
+            mr_tensor = torch.LongTensor(mr_idx).unsqueeze(0).to(self.device)
+            mr_mask = self.model.make_mr_mask(mr_tensor)
             with torch.no_grad():
-                mr_value_predict, attention = self.model.decoder(enc_txt, txt_mask, mr_value_tensor, mr_mask)
-            mr_value_predict_idx = mr_value_predict.argmax(2)[:,-1].item()
-            if mr_value_predict_idx == self.dictionary['mr_value']['s2i']['<eos>']:
+                mr_predict, attention = self.model.decoder(enc_txt, txt_mask, mr_tensor, mr_mask)
+            mr_predict_idx = mr_predict.argmax(2)[:,-1].item()
+            if mr_predict_idx == self.dictionary['mr']['s2i']['<eos>']:
                 break
-            if i >= self.dictionary['mr_value']['max_num_token']:
+            if i >= self.dictionary['mr']['max_num_token']:
                 break
-            mr_value_idx.append(mr_value_predict_idx)
-        mr_value = [self.dictionary['mr_value']['i2s'][i] for i in mr_value_idx]
-        mr_value = mr_value[1:]
+            mr_idx.append(mr_predict_idx)
+        # delete <sos>
+        mr_idx = mr_idx[1:]
 
         if self.algorithm == 'A':
             output_mr_obj = {
@@ -91,12 +91,13 @@ class NLU():
                     'near': 0
                 }
             }
-            j = 1
-            for i in range(len(mr_value)):            
-                if self.dictionary['mr_value']['s2attribute'][mr_value[i]] != 'other':
-                    output_mr_obj['value_lex'][self.dictionary['mr_value']['s2attribute'][mr_value[i]]] = mr_value[i]
-                    output_mr_obj['order'][self.dictionary['mr_value']['s2attribute'][mr_value[i]]] = j
-                    j += 1
+            n_order = 1
+            for idx in mr_idx:
+                attr = self.dictionary['mr']['i2attribute'][idx]
+                if attr != 'other':
+                    output_mr_obj['value_lex'][attr] = self.dictionary['mr']['i2s'][idx]
+                    output_mr_obj['order'][attr] = n_order
+                    n_order += 1
 
         else:
             output_mr_obj = {
@@ -111,8 +112,9 @@ class NLU():
                     'near': ''
                 }
             }
-            for i in range(len(mr_value)):            
-                if self.dictionary['mr_value']['s2attribute'][mr_value[i]] != 'other':
-                    output_mr_obj['value_lex'][self.dictionary['mr_value']['s2attribute'][mr_value[i]]] = mr_value[i]
+            for idx in mr_idx:
+                attr = self.dictionary['mr']['i2attribute'][idx]
+                if attr != 'other':
+                    output_mr_obj['value_lex'][attr] = self.dictionary['mr']['i2s'][idx]
 
         return output_mr_obj, attention

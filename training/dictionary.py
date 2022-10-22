@@ -101,45 +101,45 @@ class Dictionary():
         self.dictionary['txt']['max_num_token'] += 10
         
         # MR (all)
-        self.dictionary['mr_value'] = {}
-        self.dictionary['mr_value']['s2i'] = {}
-        self.dictionary['mr_value']['i2s'] = []
-        self.dictionary['mr_value']['s2attribute'] = {}
-        self.dictionary['mr_value']['i2attribute'] = []
-        self.dictionary['mr_value']['s2i']['<sos>'] = 0
-        self.dictionary['mr_value']['i2s'].append('<sos>')
-        self.dictionary['mr_value']['s2attribute']['<sos>'] = 'other'
-        self.dictionary['mr_value']['i2attribute'].append('other')
-        self.dictionary['mr_value']['s2i']['<eos>'] = 1
-        self.dictionary['mr_value']['i2s'].append('<eos>')
-        self.dictionary['mr_value']['s2attribute']['<eos>'] = 'other'
-        self.dictionary['mr_value']['i2attribute'].append('other')
-        self.dictionary['mr_value']['s2i']['<pad>'] = 2
-        self.dictionary['mr_value']['i2s'].append('<pad>')
-        self.dictionary['mr_value']['s2attribute']['<pad>'] = 'other'
-        self.dictionary['mr_value']['i2attribute'].append('other')
-        self.dictionary['mr_value']['s2i']['<unk>'] = 3
-        self.dictionary['mr_value']['i2s'].append('<unk>')
-        self.dictionary['mr_value']['s2attribute']['<unk>'] = 'other'
-        self.dictionary['mr_value']['i2attribute'].append('other')
-        offset = len(self.dictionary['mr_value']['i2s'])
+        self.dictionary['mr'] = {}
+        self.dictionary['mr']['s2i'] = {}
+        self.dictionary['mr']['i2s'] = []
+        self.dictionary['mr']['s2attribute'] = {}
+        self.dictionary['mr']['i2attribute'] = []
+        self.dictionary['mr']['s2i']['<sos>'] = 0
+        self.dictionary['mr']['i2s'].append('<sos>')
+        self.dictionary['mr']['s2attribute']['<sos>'] = 'other'
+        self.dictionary['mr']['i2attribute'].append('other')
+        self.dictionary['mr']['s2i']['<eos>'] = 1
+        self.dictionary['mr']['i2s'].append('<eos>')
+        self.dictionary['mr']['s2attribute']['<eos>'] = 'other'
+        self.dictionary['mr']['i2attribute'].append('other')
+        self.dictionary['mr']['s2i']['<pad>'] = 2
+        self.dictionary['mr']['i2s'].append('<pad>')
+        self.dictionary['mr']['s2attribute']['<pad>'] = 'other'
+        self.dictionary['mr']['i2attribute'].append('other')
+        self.dictionary['mr']['s2i']['<unk>'] = 3
+        self.dictionary['mr']['i2s'].append('<unk>')
+        self.dictionary['mr']['s2attribute']['<unk>'] = 'other'
+        self.dictionary['mr']['i2attribute'].append('other')
+        offset = len(self.dictionary['mr']['i2s'])
         i = 0
         for attr in value_list['mr']:
             for value in value_list['mr'][attr]:
-                if (value in self.dictionary['mr_value']['s2i']) is False:
-                    self.dictionary['mr_value']['s2i'][value] = i+offset
-                    self.dictionary['mr_value']['i2s'].append(value)
+                if (value in self.dictionary['mr']['s2i']) is False:
+                    self.dictionary['mr']['s2i'][value] = i+offset
+                    self.dictionary['mr']['i2s'].append(value)
                     if value != '':
-                        self.dictionary['mr_value']['s2attribute'][value] = attr
-                        self.dictionary['mr_value']['i2attribute'].append(attr)
+                        self.dictionary['mr']['s2attribute'][value] = attr
+                        self.dictionary['mr']['i2attribute'].append(attr)
                     else:
-                        self.dictionary['mr_value']['s2attribute'][value] = 'other'
-                        self.dictionary['mr_value']['i2attribute'].append('other')
+                        self.dictionary['mr']['s2attribute'][value] = 'other'
+                        self.dictionary['mr']['i2attribute'].append('other')
                     i += 1
-        self.dictionary['mr_value']['dim'] = len(self.dictionary['mr_value']['s2i'])
+        self.dictionary['mr']['dim'] = len(self.dictionary['mr']['s2i'])
 
         # "+2": <sos> <eos>
-        self.dictionary['mr_value']['max_num_token'] = len(value_list['mr']) + 2
+        self.dictionary['mr']['max_num_token'] = len(value_list['mr']) + 2
 
     def get_dictionary(self):
         return self.dictionary

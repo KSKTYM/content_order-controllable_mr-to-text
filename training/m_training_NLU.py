@@ -120,8 +120,8 @@ if __name__ == '__main__':
     # (3) network settings
     print('(3) network settings')
     nlu_encoder = NLU_Encoder(e2e_dictionary['txt']['dim'], int(args.hid_dim), int(args.enc_layer), int(args.enc_head), int(args.enc_pf_dim), args.dropout, e2e_dictionary['txt']['max_num_token'], device)
-    nlu_decoder = NLU_Decoder(e2e_dictionary['mr_value']['dim'], int(args.hid_dim), int(args.dec_layer), int(args.dec_head), int(args.dec_pf_dim), args.dropout, e2e_dictionary['mr_value']['max_num_token'], device)
-    nlu_model = NLU_Model(nlu_encoder, nlu_decoder, e2e_dictionary['mr_value']['s2i']['<pad>'], e2e_dictionary['txt']['s2i']['<pad>'], device)
+    nlu_decoder = NLU_Decoder(e2e_dictionary['mr']['dim'], int(args.hid_dim), int(args.dec_layer), int(args.dec_head), int(args.dec_pf_dim), args.dropout, e2e_dictionary['mr']['max_num_token'], device)
+    nlu_model = NLU_Model(nlu_encoder, nlu_decoder, e2e_dictionary['mr']['s2i']['<pad>'], e2e_dictionary['txt']['s2i']['<pad>'], device)
     nlu_model = nlu_model.to(device)
     nlu_model.apply(initialize_weights);
     print('The model (NLU) has {} trainable parameters'.format(count_parameters(nlu_model)))

@@ -34,11 +34,11 @@ class MyDataset_O(torch.utils.data.Dataset):
 
         # MR (value)
         token_mr_value = self._mrobj2seq(self.data[idx]['mr']['value_lex'])
-        a_mr_value = [self.dictionary['mr_value']['s2i']['<pad>']] * self.dictionary['mr_value']['max_num_token']
-        a_mr_value[0] = self.dictionary['mr_value']['s2i']['<sos>']
+        a_mr_value = [self.dictionary['mr']['s2i']['<pad>']] * self.dictionary['mr']['max_num_token']
+        a_mr_value[0] = self.dictionary['mr']['s2i']['<sos>']
         for i in range(len(token_mr_value)):
-            a_mr_value[i+1] = self.dictionary['mr_value']['s2i'][token_mr_value[i]]
-        a_mr_value[len(token_mr_value)+1] = self.dictionary['mr_value']['s2i']['<eos>']
+            a_mr_value[i+1] = self.dictionary['mr']['s2i'][token_mr_value[i]]
+        a_mr_value[len(token_mr_value)+1] = self.dictionary['mr']['s2i']['<eos>']
 
         # TXT
         token_txt = self.tokenizer.txt(self.data[idx]['txt_lex'])
@@ -84,11 +84,11 @@ class MyDataset_A(torch.utils.data.Dataset):
 
         # MR (value)
         token_mr_value = self._mrobj2seq(self.data[idx]['mr'])
-        a_mr_value = [self.dictionary['mr_value']['s2i']['<pad>']] * self.dictionary['mr_value']['max_num_token']
-        a_mr_value[0] = self.dictionary['mr_value']['s2i']['<sos>']
+        a_mr_value = [self.dictionary['mr']['s2i']['<pad>']] * self.dictionary['mr']['max_num_token']
+        a_mr_value[0] = self.dictionary['mr']['s2i']['<sos>']
         for i in range(len(token_mr_value)):
-            a_mr_value[i+1] = self.dictionary['mr_value']['s2i'][token_mr_value[i]]
-        a_mr_value[len(token_mr_value)+1] = self.dictionary['mr_value']['s2i']['<eos>']
+            a_mr_value[i+1] = self.dictionary['mr']['s2i'][token_mr_value[i]]
+        a_mr_value[len(token_mr_value)+1] = self.dictionary['mr']['s2i']['<eos>']
 
         # TXT
         token_txt = self.tokenizer.txt(self.data[idx]['txt_lex'])

@@ -119,9 +119,9 @@ if __name__ == '__main__':
 
     # (3) model settings
     print('(3) network settings')
-    nlg_encoder = NLG_Encoder(e2e_dictionary['mr_value']['dim'], int(args.hid_dim), int(args.enc_layer), int(args.enc_head), int(args.enc_pf_dim), args.dropout, e2e_dictionary['mr_value']['max_num_token'], device)
+    nlg_encoder = NLG_Encoder(e2e_dictionary['mr']['dim'], int(args.hid_dim), int(args.enc_layer), int(args.enc_head), int(args.enc_pf_dim), args.dropout, e2e_dictionary['mr']['max_num_token'], device)
     nlg_decoder = NLG_Decoder(e2e_dictionary['txt']['dim'], int(args.hid_dim), int(args.dec_layer), int(args.dec_head), int(args.dec_pf_dim), args.dropout, e2e_dictionary['txt']['max_num_token'], device)
-    nlg_model = NLG_Model(nlg_encoder, nlg_decoder, e2e_dictionary['mr_value']['s2i']['<pad>'], e2e_dictionary['txt']['s2i']['<pad>'], device)
+    nlg_model = NLG_Model(nlg_encoder, nlg_decoder, e2e_dictionary['mr']['s2i']['<pad>'], e2e_dictionary['txt']['s2i']['<pad>'], device)
     nlg_model = nlg_model.to(device)
     nlg_model.apply(initialize_weights);
     print('The model (NLG) has {} trainable parameters'.format(count_parameters(nlg_model)))

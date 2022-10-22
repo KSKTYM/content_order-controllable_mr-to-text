@@ -11,6 +11,6 @@ python3 m_inference_NLG.py -d_model_nlg ../output/NLG_A_AUG -d_model_nlu ../outp
 
 exnum=(0 1 2 3)
 for m in ${exnum[@]}; do
-    python3 m_inference_NLG.py -d_model_nlg ../output/NLG_A -d_model_nlu ../output/NLU_A -i ../corpus/augmentation/test/out/e2e_test_aug_"$m".json -o result/NLG_A/inference_test_aug_"$m"_out.tsv -search best -alg_nlg A -alg_nlu A -aug
-    python3 m_inference_NLG.py -d_model_nlg ../output/NLG_A_AUG -d_model_nlu ../output/NLU_A_AUG -i ../corpus/augmentation/test/out/e2e_test_aug_"$m".json -o result/NLG_A_AUG/inference_test_aug_"$m"_out.tsv -search best -alg_nlg A -alg_nlu A -aug
+    python3 m_inference_NLG.py -d_model_nlg ../output/NLG_A -d_model_nlu ../output/NLU_A -i ../corpus/augmentation/test/out/e2e_test_aug_"$m".json -o result/NLG_A/inference_test_aug_"$m".tsv -search best -alg_nlg A -alg_nlu A -aug
+    python3 m_inference_NLG.py -d_model_nlg ../output/NLG_A_AUG -d_model_nlu ../output/NLU_A_AUG -i ../corpus/augmentation/test/out/e2e_test_aug_"$m".json -o result/NLG_A_AUG/inference_test_aug_"$m".tsv -search best -alg_nlg A -alg_nlu A -aug
 done
