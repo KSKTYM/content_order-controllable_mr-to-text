@@ -53,88 +53,41 @@ if __name__ == '__main__':
         a_obj_in = json.load(f_test)
 
     prev = {
-        'mr_value_obj': None,
-        'mr_order_obj': None,
-        'mr_idx_sen_obj': None,
-        'mr_value_string': '',
-        'mr_order_string': '',
-        'mr_idx_sen_string': '',
-        'num_sen': 0,
-        'output_text': ''
+        'mr_value': None,
+        'mr_order': None,
+        'output_text': None
     }
 
     fo = open(args.o, 'w', encoding='utf-8')
-    if args.alg_nlg == 'A':
-        fo.write('id\tmr_value\tmr_order\ttxt(correct)\ttxt(predict)\tresult\n')
-        for obj in a_obj_in:
-            mr_value_obj = obj['mr']['value']
-            mr_order_obj = obj['mr']['order']
-            if args.aug is True:
-                txt = ''
-            else:
-                txt = obj['txt']
+    fo.write('id\tmr_value\tmr_order\ttxt(correct)\ttxt(predict)\tresult\n')
+    for obj in a_obj_in:
+        mr_value_string = conv_obj2string(obj['mr']['value'])
+        mr_order_string = conv_obj2string(obj['mr']['order'])
+        if args.aug is True:
+            txt = ''
+        else:
+            txt = obj['txt']
 
-            if (mr_value_obj != prev['mr_value_obj']) or \
-               (mr_order_obj != prev['mr_order_obj']):
-                mr_value_string = conv_obj2string(mr_value_obj)
-                mr_order_string = conv_obj2string(mr_order_obj)
-                output_text, _ = NLG_model.convert_nlg(args.search, obj['mr'])
-            else:
-                mr_value_string = prev['mr_value_string']
-                mr_order_string = prev['mr_order_string']
-                output_text = prev['output_text']
-            if 'id_ext' in obj:
-                fo.write(str(obj['id'])+'-'+str(obj['id_ext'])+'\t')
-            else:
-                fo.write(str(obj['id'])+'\t')
-            fo.write(mr_value_string+'\t')
-            fo.write(mr_order_string+'\t')
-            fo.write(txt+'\t'+output_text+'\t')
+        if (mr_value_string != prev['mr_value']) or \
+           (mr_order_string != prev['mr_order']):
+            output_text, _ = NLG_model.convert_nlg(args.search, obj['mr'])
+        else:
+            output_text = prev['output_text']
+        if 'id_ext' in obj:
+            fo.write(str(obj['id'])+'-'+str(obj['id_ext'])+'\t')
+        else:
+            fo.write(str(obj['id'])+'\t')
+        fo.write(mr_value_string+'\t')
+        fo.write(mr_order_string+'\t')
+        fo.write(txt+'\t'+output_text+'\t')
 
-            if txt == output_text:
-                fo.write('True\n')
-            else:
-                fo.write('False\n')
+        if txt == output_text:
+            fo.write('True\n')
+        else:
+            fo.write('False\n')
 
-            prev['mr_value_obj'] = mr_value_obj
-            prev['mr_order_obj'] = mr_order_obj
-            prev['mr_value_string'] = mr_value_string
-            prev['mr_order_string'] = mr_order_string
-            prev['output_text'] = output_text
-
-    else:
-        fo.write('id\tmr_value\tmr_order\ttxt(correct)\ttxt(predict)\tresult\n')
-        for obj in a_obj_in:
-            mr_value_obj = obj['mr']['value']
-            mr_order_obj = obj['mr']['order']
-            if args.aug is True:
-                txt = ''
-            else:
-                txt = obj['txt']
-
-            if mr_value_obj != prev['mr_value_obj']:
-                mr_value_string = conv_obj2string(mr_value_obj)
-                output_text, _ = NLG_model.convert_nlg(args.search, obj['mr'])
-            else:
-                mr_value_string = prev['mr_value_string']
-                output_text = prev['output_text']
-            if 'id_ext' in obj:
-                fo.write(str(obj['id'])+'-'+str(obj['id_ext'])+'\t')
-            else:
-                fo.write(str(obj['id'])+'\t')
-            fo.write(mr_value_string+'\t')
-            fo.write(conv_obj2string(mr_order_obj)+'\t')
-            fo.write(txt+'\t'+output_text+'\t')
-
-            if txt == output_text:
-                fo.write('True\n')
-            else:
-                fo.write('False\n')
-
-            prev['mr_value_obj'] = mr_value_obj
-            prev['mr_order_obj'] = mr_order_obj
-            prev['mr_value_string'] = mr_value_string
-            prev['output_text'] = output_text
-
+        prev['mr_value'] = mr_value_string
+        prev['mr_order'] = mr_order_string
+        prev['output_text'] = output_text
     fo.close()
     print('** done **')
