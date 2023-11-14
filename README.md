@@ -1,5 +1,5 @@
 ## Title and Authors
-"Content Position Order-Controllable MR-to-text"
+"Content Order-Controllable MR-to-text"
 
 _Authors: Keisuke Toyama, Katsuhito Sudoh, and Satoshi Nakamura_
 
